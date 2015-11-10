@@ -9,12 +9,12 @@ public class Race {
 
     private Map<Integer,Rider> ridersOnTrack=new HashMap<>();
 
-    public void riderOnStart(int riderNumber){
 
-    }
+
+
 
     public void start(){
-        rider=
+        rider=new Rider();
         ridersOnTrack.put(rider.getRiderNumber(),rider);
 
     }
