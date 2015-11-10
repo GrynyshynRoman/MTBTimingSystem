@@ -1,4 +1,4 @@
-package com.RomanGrynyshyn.gui;
+package com.RomanGrynyshyn.gui.guiEngine;
 
 import com.RomanGrynyshyn.engine.RaceData;
 import com.RomanGrynyshyn.engine.Rider;
@@ -17,7 +17,8 @@ public class RegistrationWindow {
     private JLabel lab3= new JLabel("Number");
     private JTextField riderNumber=new JTextField(5);
     private JButton addRider=new JButton("Add Rider");
-    public RaceData raceData=new RaceData();
+
+    public static RaceData raceData=new RaceData();
 
     public RegistrationWindow(){
         addRider.addActionListener(new ActionListener(){

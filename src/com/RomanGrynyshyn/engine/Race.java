@@ -1,8 +1,22 @@
 package com.RomanGrynyshyn.engine;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Race {
+    Rider rider;
+    private int riderOnStart;
+
+    private Map<Integer,Rider> ridersOnTrack=new HashMap<>();
+
+    public void riderOnStart(int riderNumber){
+
+    }
+
     public void start(){
-        //get racer data by his number from hashMap, set his start time
+        rider=
+        ridersOnTrack.put(rider.getRiderNumber(),rider);
+
     }
     public void finish(){
 
