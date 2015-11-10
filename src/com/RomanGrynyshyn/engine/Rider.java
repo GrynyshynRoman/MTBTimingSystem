@@ -9,11 +9,29 @@ public class Rider {
     private long riderStartTime;
     private long riderFinishtime;
 
+    private enum riderCategories{Elite, Master, Junior, Amateur, Woman};
+
     public void setRiderName(String riderName){
         this.riderName=riderName;
     }
-    public void setRiderCategory(String riderCategory){
-        this.riderCategory=riderCategory;
+    public void setRiderCategory(riderCategories category){
+        switch(category){
+            case Elite:
+                this.riderCategory=category.name();
+                break;
+            case Master:
+                this.riderCategory=category.name();
+                break;
+            case Junior:
+                this.riderCategory=category.name();
+                break;
+            case Amateur:
+                this.riderCategory=category.name();
+                break;
+            case Woman:
+                this.riderCategory=category.name();
+                break;
+        }
     }
     public void setRiderNumber(int riderNumber){
         this.riderNumber=riderNumber;

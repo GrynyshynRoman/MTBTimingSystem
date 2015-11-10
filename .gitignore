@@ -1,6 +1,6 @@
 /.idea
 /out
-/MTBTimingSystem.iml
+/*.iml
 # Windows image file caches
 Thumbs.db
 ehthumbs.db

@@ -1,6 +1,6 @@
 package com.RomanGrynyshyn;
 
-import com.RomanGrynyshyn.gui.guiEngine.RegistrationWindow;
+import com.RomanGrynyshyn.gui.RegistrationWindow;
 
 import java.io.IOException;
 
