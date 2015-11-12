@@ -13,17 +13,19 @@ public class RegistrationEngine implements ActionListener {
     RegistrationEngine(RegistrationWindow parent){
         this.parent=parent;
     }
+
     public RaceData raceData=new RaceData();
+    public Rider rider = new Rider();
     public void actionPerformed(ActionEvent e){
-        JButton clickedButton= (JButton)e.getSource();
+
+
         Object source=e.getSource();
         if(source==parent.addRider) {
-            Rider rider = new Rider();
+            JButton clickedButton= (JButton)e.getSource();
+
             rider.setRiderNumber(Integer.parseInt(parent.riderNumber.getText()));
             rider.setRiderName(parent.riderName.getText());
-            /* refactor for enum-type
-            rider.setRiderCategory(riderCategory.getText());
-            */
+
             switch (rider.getRiderCategory()) {
                 case "Elite":
                     raceData.eliteRidersData.put(rider.getRiderNumber(), rider);
@@ -41,6 +43,10 @@ public class RegistrationEngine implements ActionListener {
                     raceData.amateurRidersData.put(rider.getRiderNumber(), rider);
                     break;
             }
+        }else if(source==parent.selectCategory){
+            JComboBox clickedCombo= (JComboBox)e.getSource();
+            parent.riderCategory.setText(clickedCombo.getSelectedItem().toString());
+            rider.setRiderCategory(parent.riderCategory.getText());
         }
 
 

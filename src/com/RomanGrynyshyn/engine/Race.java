@@ -7,7 +7,10 @@ public class Race {
     Rider rider;
     private int riderOnStart;
 
+
     private Map<Integer,Rider> ridersOnTrack=new HashMap<>();
+
+
 
 
 
