@@ -1,7 +1,6 @@
-package com.RomanGrynyshyn.gui;
+package com.RomanGrynyshyn.engine;
 
-import com.RomanGrynyshyn.engine.RaceData;
-import com.RomanGrynyshyn.engine.Rider;
+import com.RomanGrynyshyn.gui.RegistrationWindow;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -10,18 +9,20 @@ import java.awt.event.ActionListener;
 public class RegistrationEngine implements ActionListener {
 
     RegistrationWindow parent;
-    RegistrationEngine(RegistrationWindow parent){
-        this.parent=parent;
+
+    public RegistrationEngine(RegistrationWindow parent) {
+        this.parent = parent;
     }
 
-    public RaceData raceData=new RaceData();
+    public RaceData raceData = new RaceData();
     public Rider rider = new Rider();
-    public void actionPerformed(ActionEvent e){
+
+    public void actionPerformed(ActionEvent e) {
 
 
-        Object source=e.getSource();
-        if(source==parent.addRider) {
-            JButton clickedButton= (JButton)e.getSource();
+        Object source = e.getSource();
+        if (source == parent.addRider) {
+            JButton clickedButton = (JButton) e.getSource();
 
             rider.setRiderNumber(Integer.parseInt(parent.riderNumber.getText()));
             rider.setRiderName(parent.riderName.getText());
@@ -43,18 +44,20 @@ public class RegistrationEngine implements ActionListener {
                     raceData.amateurRidersData.put(rider.getRiderNumber(), rider);
                     break;
             }
-        }else if(source==parent.selectCategory){
-            JComboBox clickedCombo= (JComboBox)e.getSource();
+            parent.riderName.setText("");
+            parent.riderNumber.setText("");
+            parent.riderCategory.setText("");
+        } else if (source == parent.selectCategory) {
+            JComboBox clickedCombo = (JComboBox) e.getSource();
             parent.riderCategory.setText(clickedCombo.getSelectedItem().toString());
             rider.setRiderCategory(parent.riderCategory.getText());
         }
 
 
-        }
-
-
-    public RegistrationEngine(){}
+    }
 }
+
+
 
 
 

@@ -1,10 +1,13 @@
 package com.RomanGrynyshyn.gui;
 
+import com.RomanGrynyshyn.engine.RegistrationEngine;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class RegistrationWindow {
     private String[] categories={"Amateur", "Elite", "Junior", "Master", "Woman"};
+
 
     private JPanel regWindow=new JPanel();
     private JLabel nameLabel=new JLabel("Name");
@@ -14,11 +17,12 @@ public class RegistrationWindow {
     public JComboBox selectCategory=new JComboBox();
     private JLabel numberLabel= new JLabel("Number");
     public JTextField riderNumber=new JTextField(5);
-    JButton addRider=new JButton("Add Rider");
+    public JButton addRider=new JButton("Add Rider");
 
     public void comboBoxFill(){
         for (int i=0;i<5; i++)
             selectCategory.addItem(categories[i]);
+        riderCategory.setEditable(false);
         }
 
 
@@ -27,7 +31,6 @@ public class RegistrationWindow {
         regWindow.add(riderName);
         regWindow.add(categoryLabel);
         regWindow.add(selectCategory);
-        regWindow.add(riderCategory);
         regWindow.add(numberLabel);
         regWindow.add(riderNumber);
         regWindow.add(addRider);

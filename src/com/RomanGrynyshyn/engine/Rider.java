@@ -59,6 +59,10 @@ public class Rider {
     public long getRiderFinishtime(){
         return riderFinishtime;}
 
+    public void calculateRiderTime(long riderStartTime, long riderFinishtime){
+        riderTime=(riderFinishtime-riderStartTime)/1000.00;
+    }
+
     public Rider(){
         ridersCounter++;
     }
