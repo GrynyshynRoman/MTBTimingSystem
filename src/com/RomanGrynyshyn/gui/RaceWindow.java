@@ -11,8 +11,10 @@ public class RaceWindow {
     private JPanel raceWindow=new JPanel();
     private JLabel categoryOnStart=new JLabel("Category on start:");
     public JComboBox categoryOnStartSelect=new JComboBox();
-    private JLabel riderNumberLab=new JLabel("riderNumber");
-    public JTextField riderNumber=new JTextField();
+    private JLabel riderNumberOnStartLab=new JLabel("riderNumberOnStart");
+    public JTextField riderNumberOnStart=new JTextField();
+    private JLabel riderNumberOnFinishLab=new JLabel("riderNumberOnFinish");
+    public JTextField riderNumberOnFinish=new JTextField();
     private JLabel riderTimeLab=new JLabel("Rider Time");
     public JTextField riderTime=new JTextField();
     public JButton startButton=new JButton("Start");
@@ -28,8 +30,10 @@ public class RaceWindow {
 
         raceWindow.add(categoryOnStart);
         raceWindow.add(categoryOnStartSelect);
-        raceWindow.add(riderNumberLab);
-        raceWindow.add(riderNumber);
+        raceWindow.add(riderNumberOnStartLab);
+        raceWindow.add(riderNumberOnStart);
+        raceWindow.add(riderNumberOnFinishLab);
+        raceWindow.add(riderNumberOnFinish);
         raceWindow.add(riderTimeLab);
         raceWindow.add(riderTime);
         raceWindow.add(startButton);
