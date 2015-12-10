@@ -8,23 +8,17 @@ import java.awt.*;
 
 public class UserWindow {
 
-
-
     //Registration Panel Components
-
     private JLabel nameLabel=new JLabel("Name",SwingConstants.RIGHT);
     private JLabel categoryLabel = new JLabel("Category",SwingConstants.RIGHT);
     private JLabel numberLabel= new JLabel("Number",SwingConstants.RIGHT);
     public JTextField riderName=new JTextField(20);
     public JTextField riderNumber=new JTextField(5);
     public JButton addRider=new JButton("Add Rider");
-    public JComboBox regCategory =new JComboBox();
-    public void regCategoryFill(){
-        String[] categories={"Amateur", "Elite", "Junior", "Master", "Woman"};
-        for (String e:categories) regCategory.addItem(e);
-        }
+    public JComboBox<String> regCategory =new JComboBox<>(new String[]{"Amateur", "Elite", "Junior", "Master", "Woman"});
     private JLabel registeredRidersLabel=new JLabel("Registered Riders", SwingConstants.RIGHT);
     public JTextArea registeredRidersList=new JTextArea(5,1);
+    public JLabel totalRiders=new JLabel("Riders registered: 0",SwingConstants.RIGHT);
 
     //Race Panel Components
     private JLabel categoryOnStart=new JLabel("Category on start:",SwingConstants.RIGHT);
@@ -36,13 +30,26 @@ public class UserWindow {
     public JTextField riderTime=new JTextField();
     public JButton startButton=new JButton("Start");
     public JButton finishButton=new JButton("Finish");
-    public JComboBox raceCategory =new JComboBox();
-    public void raceCategoryFill(){
-        String[] categories ={"Amateur", "Elite", "Junior", "Master", "Woman"};
-        for (String e:categories) raceCategory.addItem(e);
-        }
+    public JComboBox<String> raceCategory =new JComboBox<>(new String[]{"Amateur", "Elite", "Junior", "Master", "Woman"});
     private JLabel ridersOnTrack=new JLabel("Riders on track");
     public JTextArea ridersOnTrackList=new JTextArea(10,1);
+
+    //Results Panel Components
+
+
+    private JLabel juniorsLab=new JLabel("Juniors");
+    private JLabel womanLab=new JLabel("Woman");
+    private JLabel mastersLab=new JLabel("Masters");
+    private JLabel amateursLab=new JLabel("Amateurs");
+    private JLabel eliteLab=new JLabel("Elite");
+    public JTextArea juniorsResults =new JTextArea();
+    public JTextArea womanResults =new JTextArea();
+    public JTextArea mastersResults =new JTextArea();
+    public JTextArea amateursResults =new JTextArea();
+    public JTextArea eliteResults =new JTextArea();
+
+
+
 
     public JPanel CreateRegistrationInterface(){
         JPanel riderInfoPanel =new JPanel();
@@ -54,30 +61,35 @@ public class UserWindow {
         riderInfoPanel.add(regCategory);
         riderInfoPanel.add(new JLabel());
         riderInfoPanel.add(addRider);
-        regCategoryFill();
         GridLayout riderInfoGrid=new GridLayout(4,2,5,5);
         riderInfoPanel.setLayout(riderInfoGrid);
 
         //Add lists of registered riders
         JPanel registeredRidersPanel=new JPanel();
+        registeredRidersPanel.add(totalRiders);
         registeredRidersPanel.add(registeredRidersLabel);
-        registeredRidersPanel.add(registeredRidersList);
-        registeredRidersList.setEditable(false);
-        GridLayout registrGrid=new GridLayout(1,2,5,5);
-        registeredRidersPanel.setLayout(registrGrid);
+        GridLayout registerGrid=new GridLayout(2,1,5,5);
+        registeredRidersPanel.setLayout(registerGrid);
+        JPanel listPanel=new JPanel();
+        listPanel.add(registeredRidersList);
+        GridLayout listGrid=new GridLayout(1,1,5,5);
+        listPanel.setLayout(listGrid);
+
 
         JPanel registrationPanel=new JPanel();
         registrationPanel.add(riderInfoPanel);
         registrationPanel.add(registeredRidersPanel);
-        GridLayout registrationLayout=new GridLayout(1,2);
+        registrationPanel.add(listPanel);
+        GridLayout registrationLayout=new GridLayout(1,3,5,5);
         registrationPanel.setLayout(registrationLayout);
         Border lineBorder=BorderFactory.createLineBorder(Color.black);
         Border regBorder=BorderFactory.createTitledBorder(lineBorder, "Registration");
         registrationPanel.setBorder(regBorder);
-
         return registrationPanel;
     }
+
     public JPanel CreateRaceInterface(){
+
         JPanel startPanel =new JPanel();
         startPanel.add(categoryOnStart);
         startPanel.add(raceCategory);
@@ -87,7 +99,7 @@ public class UserWindow {
         startPanel.add(startButton);
         GridLayout startGrid=new GridLayout(3,2,5,5);
         startPanel.setLayout(startGrid);
-        raceCategoryFill();
+
 
         JPanel finishPanel=new JPanel();
         finishPanel.add(riderNumberOnFinishLab);
@@ -107,12 +119,6 @@ public class UserWindow {
         timersPanel.setLayout(timersGrid);
         ridersOnTrackList.setEditable(false);
 
-        /*JPanel buttonPanel=new JPanel();
-
-        buttonPanel.add(new JLabel());
-        GridLayout buttonLay=new GridLayout(2,2,5,5);
-        buttonPanel.setLayout(buttonLay);*/
-
         JPanel racePanel=new JPanel();
         GridLayout raceLay=new GridLayout(1,3,20,20);
         racePanel.setLayout(raceLay);
@@ -120,7 +126,6 @@ public class UserWindow {
         racePanel.add(finishPanel);
         racePanel.add(timersPanel);
 
-        //racePanel.add(buttonPanel);
         Border lineBorder=BorderFactory.createLineBorder(Color.black);
         Border raceBorder=BorderFactory.createTitledBorder(lineBorder, "Race");
         racePanel.setBorder(raceBorder);
@@ -128,6 +133,18 @@ public class UserWindow {
     }
     public JPanel CreateResultsPanel(){
         JPanel resultsPanel=new JPanel();
+        resultsPanel.add(juniorsLab);
+        resultsPanel.add(womanLab);
+        resultsPanel.add(mastersLab);
+        resultsPanel.add(amateursLab);
+        resultsPanel.add(eliteLab);
+        resultsPanel.add(juniorsResults);
+        resultsPanel.add(womanResults);
+        resultsPanel.add(mastersResults);
+        resultsPanel.add(amateursResults);
+        resultsPanel.add(eliteResults);
+        GridLayout resultsGrid=new GridLayout(2,5,5,5);
+        resultsPanel.setLayout(resultsGrid);
         Border lineBorder=BorderFactory.createLineBorder(Color.black);
         Border resultBorder=BorderFactory.createTitledBorder(lineBorder, "Results");
         resultsPanel.setBorder(resultBorder);
@@ -153,7 +170,7 @@ public class UserWindow {
         JFrame mainFrame=new JFrame("Timing System");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setContentPane(mainPanel);
-        mainFrame.setSize(600, 500);
+        mainFrame.setSize(700, 500);
         mainFrame.setVisible(true);
 
         UserWindowCore race=new UserWindowCore(this);

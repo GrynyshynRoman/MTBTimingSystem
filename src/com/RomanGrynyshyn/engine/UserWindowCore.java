@@ -10,11 +10,10 @@ import java.util.Map;
 
 public class UserWindowCore implements ActionListener {
 
-    private Map<Integer,Rider> ridersOnTrack=new LinkedHashMap<>();
+    private Map<String,Rider> ridersOnTrack=new LinkedHashMap<>();
     private RaceData raceData=new RaceData();
-    private String categoryOnStart;
-    private int NumberOnStart;
-    private int numberOnFinish;
+
+
     private static int ridersOnTrackcount=0;
 
     UserWindow parent;
@@ -22,8 +21,8 @@ public class UserWindowCore implements ActionListener {
         this.parent=parent;
     }
 
-    public void actionPerformed(ActionEvent e){
-        Object actionSource=e.getSource();
+    public void actionPerformed(ActionEvent event){
+        Object actionSource=event.getSource();
         Timer timer=new Timer(10,new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent event){
@@ -40,13 +39,17 @@ public class UserWindowCore implements ActionListener {
         }else if(actionSource==parent.finishButton){
             Finish();
             timer.stop();
-        }else if(actionSource==parent.addRider){RiderReg();}
+            ShowResults();
+        }else if(actionSource==parent.addRider){
+            AddRider();}
     }
 
     public void Start(){
         Rider riderOnStart;
+        String NumberOnStart;
+        String categoryOnStart;
         categoryOnStart =getCategoryOnStart();
-        NumberOnStart =Integer.parseInt(parent.riderNumberOnStart.getText());
+        NumberOnStart =parent.riderNumberOnStart.getText();
         riderOnStart=raceData.getRiderData(categoryOnStart, NumberOnStart);
         riderOnStart.setRiderStartTime(System.currentTimeMillis());
         ridersOnTrack.put(riderOnStart.getRiderNumber(),riderOnStart);
@@ -56,50 +59,71 @@ public class UserWindowCore implements ActionListener {
 
     public void Finish(){
         Rider riderOnFinish;
-        numberOnFinish =Integer.parseInt(parent.riderNumberOnFinish.getText());
+        String numberOnFinish;
+
+
+        numberOnFinish =parent.riderNumberOnFinish.getText();
         riderOnFinish=ridersOnTrack.get(numberOnFinish);
+
+
         riderOnFinish.setRiderTime(riderOnFinish.calculateRiderTime());
         parent.riderTime.setText(String.valueOf(riderOnFinish.getRiderTime()));
         ridersOnTrack.remove(riderOnFinish.getRiderNumber());
         ridersOnTrackcount--;
-        Map<Integer,Rider> sortedMap=raceData.sortByResults(raceData.getCategoryData(categoryOnStart));
+        raceData.setRiderResult(riderOnFinish, riderOnFinish.getRiderCategory());
         parent.riderNumberOnFinish.setText("");
-        //ArrayList<Rider> sortedList=raceData.sortByResults(raceData.getCategoryData(categoryOnStart));
-        for(Rider e : sortedMap.values()){
-            if(e.getRiderTime()!=0){
-                System.out.println(e.getRiderName()+" "+e.getRiderTime());
-            }
         }
-        System.out.println(" ");
-    }
 
-    public void RiderReg(){
+    public void AddRider(){
         Rider rider=new Rider();
-        rider.setRiderNumber(Integer.parseInt(parent.riderNumber.getText()));
+        rider.setRiderNumber(parent.riderNumber.getText());
         rider.setRiderName(parent.riderName.getText());
         rider.setRiderCategory(parent.regCategory.getSelectedItem().toString());
         raceData.setRiderData(rider,rider.getRiderCategory());
-        raceData.addTotalRiders();
-        Map<Integer,Rider> registeredRiders =raceData.getCategoryData(rider.getRiderCategory());
+        raceData.setRidersCount();
+        Map<String,Rider> registeredRiders =raceData.getCategoryData(rider.getRiderCategory());
         String text="";
         for(Rider r:registeredRiders.values()){
             text += r.getRiderName()+" "+r.getRiderCategory()+" "+r.getRiderNumber()+"\n";
-
         }
         parent.registeredRidersList.setText(text);
-
+        parent.totalRiders.setText("Riders registered:"+" "+raceData.getRidersCount());
         parent.riderName.setText("");
         parent.riderNumber.setText("");
     }
-    /*public void timerAction(){
-        String text="";
-        double time=0;
-        for(Rider r:ridersOnTrack.values()){
-            time=System.currentTimeMillis()-r.getRiderStartTime();
-            text+=r.getRiderNumber()+" "+time;
+
+    public void ShowResults(){
+
+        String[] categories={"Junior","Woman","Master", "Amateur","Elite"};
+        for(int i=0; i<=categories.length-1; i++){
+            String results="";
+            for (Rider rider: raceData.getCategoryResults(categories[i]).values()){
+                results+="#"+rider.getRiderNumber()+" "+rider.getRiderName()+" "+rider.getRiderTime()+"\n";
+                switch (categories[i]){
+                    case "Junior":
+                        parent.juniorsResults.setText(results);
+                        break;
+                    case "Amateur":
+                        parent.amateursResults.setText(results);
+                        break;
+                    case "Elite":
+                        parent.eliteResults.setText(results);
+                        break;
+                    case "Master":
+                        parent.mastersResults.setText(results);
+                        break;
+                    case "Woman":
+                        parent.womanResults.setText(results);
+
+                }
+            }
+
         }
-        parent.registeredRidersList.setText(text);
-    }*/
+
+
+       // parent.juniorsResults.setText();
+    }
+
 
     public String getCategoryOnStart(){
         return parent.raceCategory.getSelectedItem().toString();
