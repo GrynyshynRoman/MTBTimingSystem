@@ -6,18 +6,18 @@ public class RaceData   {
     private static int ridersCount =0;
     private static Map<String,Rider> juniors =new LinkedHashMap<>();
     private static Map<String,Rider> amateurs =new LinkedHashMap<>();
-    private static Map<String,Rider> woman =new LinkedHashMap<>();
+    private static Map<String,Rider> women =new LinkedHashMap<>();
     private static Map<String,Rider> masters =new LinkedHashMap<>();
     private static Map<String,Rider> elite =new LinkedHashMap<>();
 
     private static Map<String,Rider> juniorsResults =new LinkedHashMap<>();
     private static Map<String,Rider> amateursResults =new LinkedHashMap<>();
-    private static Map<String,Rider> womanResults =new LinkedHashMap<>();
+    private static Map<String,Rider> womenResults =new LinkedHashMap<>();
     private static Map<String,Rider> mastersResults =new LinkedHashMap<>();
     private static Map<String,Rider> eliteResults =new LinkedHashMap<>();
 
-    public void setRiderData(Rider rider, String category){
-    switch (category){
+    public void setRiderData(Rider rider){
+    switch (rider.getRiderCategory()){
         case "Junior":
             juniors.put(rider.getRiderNumber(),rider);
             break;
@@ -31,7 +31,7 @@ public class RaceData   {
             masters.put(rider.getRiderNumber(),rider);
             break;
         case "Woman":
-            woman.put(rider.getRiderNumber(),rider);
+            women.put(rider.getRiderNumber(), rider);
     }
 }
     public Rider getRiderData(String category, String number){
@@ -50,31 +50,26 @@ public class RaceData   {
                 rider= masters.get(number);
                 break;
             case "Woman":
-                rider= woman.get(number);
+                rider= women.get(number);
         }
         return rider;
     }
-    public void setRiderResult(Rider rider, String category){
-        switch (category){
+    public void setRiderResult(Rider rider){
+        switch (rider.getRiderCategory()){
             case "Junior":
                 juniorsResults.put(rider.getRiderNumber(),rider);
-                juniorsResults=sortByResults(juniorsResults);
                 break;
             case "Amateur":
                 amateursResults.put(rider.getRiderNumber(),rider);
-                amateursResults=sortByResults(amateursResults);
                 break;
             case "Elite":
                 eliteResults.put(rider.getRiderNumber(),rider);
-                eliteResults=sortByResults(eliteResults);
                 break;
             case "Master":
                 mastersResults.put(rider.getRiderNumber(),rider);
-                mastersResults=sortByResults(mastersResults);
                 break;
             case "Woman":
-                womanResults.put(rider.getRiderNumber(),rider);
-                womanResults=sortByResults(mastersResults);
+                womenResults.put(rider.getRiderNumber(), rider);
         }
     }
     public Rider getRiderResult(String category, String number){
@@ -93,7 +88,7 @@ public class RaceData   {
                 rider= mastersResults.get(number);
                 break;
             case "Woman":
-                rider= womanResults.get(number);
+                rider= womenResults.get(number);
         }
         return rider;
     }
@@ -113,7 +108,7 @@ public class RaceData   {
                 map= masters;
                 break;
             case "Woman":
-                map= woman;
+                map= women;
         }
         return map;
     }
@@ -133,9 +128,10 @@ public class RaceData   {
                 map= mastersResults;
                 break;
             case "Woman":
-                map= womanResults;
+                map= womenResults;
         }
-        return map;
+
+        return sortByResults(map);
     }
     public Map<String,Rider> sortByResults(Map<String,Rider> map){
 

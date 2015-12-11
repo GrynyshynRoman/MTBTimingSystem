@@ -70,7 +70,7 @@ public class UserWindowCore implements ActionListener {
         parent.riderTime.setText(String.valueOf(riderOnFinish.getRiderTime()));
         ridersOnTrack.remove(riderOnFinish.getRiderNumber());
         ridersOnTrackcount--;
-        raceData.setRiderResult(riderOnFinish, riderOnFinish.getRiderCategory());
+        raceData.setRiderResult(riderOnFinish);
         parent.riderNumberOnFinish.setText("");
         }
 
@@ -79,7 +79,7 @@ public class UserWindowCore implements ActionListener {
         rider.setRiderNumber(parent.riderNumber.getText());
         rider.setRiderName(parent.riderName.getText());
         rider.setRiderCategory(parent.regCategory.getSelectedItem().toString());
-        raceData.setRiderData(rider,rider.getRiderCategory());
+        raceData.setRiderData(rider);
         raceData.setRidersCount();
         Map<String,Rider> registeredRiders =raceData.getCategoryData(rider.getRiderCategory());
         String text="";
