@@ -4,7 +4,7 @@ public class Rider implements Comparable<Rider> {
     private String riderName;
     private String riderCategory;
     private String riderNumber;
-    private double riderTime;
+    private long riderTime;
     private long riderStartTime;
 
 
@@ -20,7 +20,7 @@ public class Rider implements Comparable<Rider> {
         this.riderNumber = riderNumber;
     }
 
-    public void setRiderTime(double riderTime) {
+    public void setRiderTime(long riderTime) {
         this.riderTime = riderTime;
     }
 
@@ -40,7 +40,7 @@ public class Rider implements Comparable<Rider> {
         return riderNumber;
     }
 
-    public double getRiderTime() {
+    public long getRiderTime() {
         return riderTime;
     }
 
@@ -48,8 +48,18 @@ public class Rider implements Comparable<Rider> {
         return riderStartTime;
     }
 
-    public double calculateRiderTime() {
-        return riderTime = (System.currentTimeMillis() - riderStartTime) / 1000.00;
+    public long calculateRiderTime() {
+        return riderTime = System.currentTimeMillis() - riderStartTime;
+    }
+    public String showRiderTimeAsString(){
+        int min=0;
+        int sec=0;
+        int ms=0;
+        min=(int)riderTime/60000;
+        sec=(int)(riderTime-min*60000)/1000;
+        ms=(int)(riderTime-sec*1000-min*60000);
+        String timeOutput=(min+":"+sec+":"+ms);
+        return timeOutput;
     }
 
     public int compareTo(Rider rider) {

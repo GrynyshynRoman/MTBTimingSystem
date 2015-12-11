@@ -27,8 +27,10 @@ public class UserWindowCore implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent event){
                 String text="";
+
                 for(Rider r:ridersOnTrack.values()){
-                    text+=r.getRiderNumber()+"    "+r.calculateRiderTime()+"\n";
+                    r.calculateRiderTime();
+                    text+=r.getRiderNumber()+"    "+r.showRiderTimeAsString()+"\n";
                 }
                 parent.ridersOnTrackList.setText(text);}
 
@@ -60,14 +62,10 @@ public class UserWindowCore implements ActionListener {
     public void Finish(){
         Rider riderOnFinish;
         String numberOnFinish;
-
-
         numberOnFinish =parent.riderNumberOnFinish.getText();
         riderOnFinish=ridersOnTrack.get(numberOnFinish);
-
-
         riderOnFinish.setRiderTime(riderOnFinish.calculateRiderTime());
-        parent.riderTime.setText(String.valueOf(riderOnFinish.getRiderTime()));
+        parent.riderTime.setText(riderOnFinish.showRiderTimeAsString());
         ridersOnTrack.remove(riderOnFinish.getRiderNumber());
         ridersOnTrackcount--;
         raceData.setRiderResult(riderOnFinish);
@@ -98,7 +96,7 @@ public class UserWindowCore implements ActionListener {
         for(int i=0; i<=categories.length-1; i++){
             String results="";
             for (Rider rider: raceData.getCategoryResults(categories[i]).values()){
-                results+="#"+rider.getRiderNumber()+" "+rider.getRiderName()+" "+rider.getRiderTime()+"\n";
+                results+="#"+rider.getRiderNumber()+" "+rider.getRiderName()+" "+rider.showRiderTimeAsString()+"\n";
                 switch (categories[i]){
                     case "Junior":
                         parent.juniorsResults.setText(results);
@@ -119,9 +117,6 @@ public class UserWindowCore implements ActionListener {
             }
 
         }
-
-
-       // parent.juniorsResults.setText();
     }
 
 
