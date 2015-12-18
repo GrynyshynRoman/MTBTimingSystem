@@ -1,11 +1,12 @@
 package com.RomanGrynyshyn;
 
-import com.RomanGrynyshyn.gui.guiEngine.RegistrationWindow;
+import com.RomanGrynyshyn.gui.UserWindow;
 
 import java.io.IOException;
 
 public class MTBTimingSystem {
     public static void main(String[] args) throws IOException {
-        new RegistrationWindow().winOpen();
+
+        UserWindow userWindow =new UserWindow();
     }
 }
