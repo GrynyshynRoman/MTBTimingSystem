@@ -40,6 +40,7 @@ public class DB  {
         try{
             connection=openConnection();
             statement=connection.createStatement();
+            statement.executeUpdate("CREATE TABLE ");
         }catch (SQLException ex){
             ex.printStackTrace();
         }finally {
