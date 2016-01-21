@@ -42,9 +42,10 @@ public class DB  {
             Class.forName("com.mysql.jdbc.Driver");
             connection=openConnection();
             statement=connection.createStatement();
-            statement.executeUpdate("CREATE TABLE  Riders(id int(5) NOT NULL auto_increment PRIMARY KEY , name VARCHAR(50)," +
-                    "category VARCHAR(50), qualify_time VARCHAR(15), final_time VARCHAR (15))");
-            System.out.print("table created");
+            statement.executeUpdate("drop table if exists riders");
+            statement.executeUpdate("CREATE TABLE  Riders(id int(5) NOT NULL auto_increment PRIMARY KEY , number VARCHAR(5)," +
+                    "name VARCHAR(50),category VARCHAR(50), qualify_time VARCHAR(15), final_time VARCHAR (15))");
+            System.out.println("table created");
         }catch (SQLException ex){
             ex.printStackTrace();
         }catch(ClassNotFoundException ex){
