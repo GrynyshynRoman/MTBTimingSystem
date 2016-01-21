@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DB  {
-    private static final String url="jdbc:mysql://localhost:3306/TimingSystemDB";
+    private static final String url="jdbc:mysql://localhost:3306/timingsystemdb";
     private static final String user="root";
     private static final String password="12345";
 
@@ -37,13 +37,19 @@ public class DB  {
         }
     }
     public static void createDB(){
+
         try{
+            Class.forName("com.mysql.jdbc.Driver");
             connection=openConnection();
             statement=connection.createStatement();
-            statement.executeUpdate("CREATE TABLE ");
+            statement.executeUpdate("CREATE TABLE  Riders(id int(5) NOT NULL auto_increment PRIMARY KEY , name VARCHAR(50)," +
+                    "category VARCHAR(50), qualify_time VARCHAR(15), final_time VARCHAR (15))");
+            System.out.print("table created");
         }catch (SQLException ex){
             ex.printStackTrace();
-        }finally {
+        }catch(ClassNotFoundException ex){
+            ex.printStackTrace();
+        } finally {
             closeStatement(statement);
             closeConnection(connection);
         }
