@@ -1,5 +1,6 @@
 package com.RomanGrynyshyn.engine;
 
+import com.RomanGrynyshyn.database.DB;
 import com.RomanGrynyshyn.gui.UserWindow;
 
 import javax.swing.*;
@@ -30,7 +31,7 @@ public class UserWindowCore implements ActionListener {
 
                 for(Rider r:ridersOnTrack.values()){
                     r.calculateRiderTime();
-                    text+=r.getRiderNumber()+"    "+r.showRiderTimeAsString()+"\n";
+                    text+=r.getNumber()+"    "+r.showRiderTimeAsString()+"\n";
                 }
                 parent.ridersOnTrackList.setText(text);}
 
@@ -47,45 +48,45 @@ public class UserWindowCore implements ActionListener {
     }
 
     public void Start(){
-        Rider riderOnStart;
-        String NumberOnStart;
-        String categoryOnStart;
-        categoryOnStart =getCategoryOnStart();
-        NumberOnStart =parent.riderNumberOnStart.getText();
-        riderOnStart=raceData.getRiderData(categoryOnStart, NumberOnStart);
-        riderOnStart.setRiderStartTime(System.currentTimeMillis());
-        ridersOnTrack.put(riderOnStart.getRiderNumber(),riderOnStart);
+        String number=parent.riderNumberOnStart.getText();
+        //String category=getCategoryOnStart();
+        //Rider rider=raceData.getRiderData(category, number);
+        Rider rider=DB.getRider(number);
+        ridersOnTrack.put(rider.getNumber(),rider);
         ridersOnTrackcount++;
         parent.riderNumberOnStart.setText("");
+        rider.setStartTime(System.currentTimeMillis());
     }
 
     public void Finish(){
-        Rider riderOnFinish;
-        String numberOnFinish;
-        numberOnFinish =parent.riderNumberOnFinish.getText();
-        riderOnFinish=ridersOnTrack.get(numberOnFinish);
-        riderOnFinish.setRiderTime(riderOnFinish.calculateRiderTime());
-        parent.riderTime.setText(riderOnFinish.showRiderTimeAsString());
-        ridersOnTrack.remove(riderOnFinish.getRiderNumber());
+
+        String number =parent.riderNumberOnFinish.getText();
+        Rider rider=ridersOnTrack.get(number);
+        rider.setFinishtime(System.currentTimeMillis());
+        rider.calculateRiderTime();
+        DB.setQualifyTime(rider);
+        //parent.riderTime.setText(rider.showRiderTimeAsString());
+        ridersOnTrack.remove(rider.getNumber());
         ridersOnTrackcount--;
-        raceData.setRiderResult(riderOnFinish);
+        //raceData.setRiderResult(rider);
         parent.riderNumberOnFinish.setText("");
         }
 
     public void AddRider(){
         Rider rider=new Rider();
-        rider.setRiderNumber(parent.riderNumber.getText());
-        rider.setRiderName(parent.riderName.getText());
-        rider.setRiderCategory(parent.regCategory.getSelectedItem().toString());
-        raceData.setRiderData(rider);
+        rider.setNumber(parent.riderNumber.getText());
+        rider.setName(parent.riderName.getText());
+        rider.setCategory(parent.regCategory.getSelectedItem().toString());
+        DB.addRider(rider);
+        /*raceData.setRiderData(rider);
         raceData.setRidersCount();
-        Map<String,Rider> registeredRiders =raceData.getCategoryData(rider.getRiderCategory());
+        Map<String,Rider> registeredRiders =raceData.getCategoryData(rider.getCategory());
         String text="";
         for(Rider r:registeredRiders.values()){
-            text += r.getRiderName()+" "+r.getRiderCategory()+" "+r.getRiderNumber()+"\n";
+            text += r.getNumber()+" "+r.getName()+" "+r.getCategory()+"\n";
         }
         parent.registeredRidersList.setText(text);
-        parent.totalRiders.setText("Riders registered:"+" "+raceData.getRidersCount());
+        parent.totalRiders.setText("Riders registered:"+" "+raceData.getRidersCount());*/
         parent.riderName.setText("");
         parent.riderNumber.setText("");
     }
@@ -96,7 +97,7 @@ public class UserWindowCore implements ActionListener {
         for(int i=0; i<=categories.length-1; i++){
             String results="";
             for (Rider rider: raceData.getCategoryResults(categories[i]).values()){
-                results+="#"+rider.getRiderNumber()+" "+rider.getRiderName()+" "+rider.showRiderTimeAsString()+"\n";
+                results+="#"+rider.getNumber()+" "+rider.getName()+" "+rider.showRiderTimeAsString()+"\n";
                 switch (categories[i]){
                     case "Junior":
                         parent.juniorsResults.setText(results);

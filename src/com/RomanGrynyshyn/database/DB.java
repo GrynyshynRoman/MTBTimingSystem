@@ -1,60 +1,115 @@
 package com.RomanGrynyshyn.database;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import com.RomanGrynyshyn.engine.Rider;
 
-public class DB  {
-    private static final String url="jdbc:mysql://localhost:3306/timingsystemdb";
-    private static final String user="root";
-    private static final String password="12345";
+import java.sql.*;
 
-    private static Connection connection=null;
-    private static Statement statement=null;
+public class DB {
+    protected static final String URL = "jdbc:mysql://127.0.0.1:3306/timingsystemdb?autoReconnect=true&useSSL=false";
+    protected static final String USER = "Roman";
+    protected static final String PASSWORD = "12345";
 
-    protected static Connection openConnection(){
-        try {
-            connection = DriverManager.getConnection(url, user, password);
-            return connection;
-        }catch (SQLException sqlEx){
-            sqlEx.printStackTrace();
-        }
-        return null;
-    }
-    protected static void closeConnection(Connection connection){
-        try{
-            connection.close();
-        }catch (SQLException ex){
-            ex.printStackTrace();
-        }
-    }
-    protected static void closeStatement(Statement statement){
-        try{
-            statement.close();
-        }catch (SQLException ex){
-            ex.printStackTrace();
-        }
-    }
-    public static void createDB(){
 
-        try{
-            Class.forName("com.mysql.jdbc.Driver");
-            connection=openConnection();
-            statement=connection.createStatement();
-            statement.executeUpdate("drop table if exists riders");
-            statement.executeUpdate("CREATE TABLE  Riders(id int(5) NOT NULL auto_increment PRIMARY KEY , number VARCHAR(5)," +
-                    "name VARCHAR(50),category VARCHAR(50), qualify_time VARCHAR(15), final_time VARCHAR (15))");
+    public static void createTable() {
+
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             Statement statement = connection.createStatement()) {
+
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS riders (id INT(5) NOT NULL AUTO_INCREMENT PRIMARY KEY , number VARCHAR(5)," +
+                    "name VARCHAR(50),category VARCHAR(50) , qualify_time VARCHAR(15), final_time VARCHAR (15))");
             System.out.println("table created");
-        }catch (SQLException ex){
+        } catch (SQLException ex) {
             ex.printStackTrace();
-        }catch(ClassNotFoundException ex){
-            ex.printStackTrace();
-        } finally {
-            closeStatement(statement);
-            closeConnection(connection);
         }
-
     }
+
+    public static void addRider(Rider rider) {
+
+        String query = "INSERT INTO timingsystemdb.riders (number, name, category, qualify_time,final_time) " +
+                "VALUES ('" + rider.getNumber() + "', '" + rider.getName() + "', '" + rider.getCategory() + "',0,0);";
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             Statement statement = connection.createStatement()) {
+            statement.execute(query);
+            System.out.println("rider added");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void editRider(Rider rider) {
+        String query = "UPDATE timingsystemdb.riders SET " +
+                "number=" + rider.getNumber() + "," +
+                "name=" + rider.getName() + "," +
+                "category=" + rider.getCategory() + "," +
+                " WHERE number='" + rider.getNumber()+"'";
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             Statement statement = connection.createStatement()) {
+            statement.executeUpdate(query);
+            System.out.println("rider edited");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void setQualifyTime(Rider rider) {
+        String query="UPDATE timingsystemdb.riders SET qualify_time="+rider.getTime()+" WHERE number=" + rider.getNumber()+";";
+
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             Statement statement = connection.createStatement()) {
+            statement.execute(query);
+            System.out.println("qualify time setted");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void setFinalTime(Rider rider) {
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             Statement statement = connection.createStatement()) {
+            statement.execute("INSERT INTO timingsystemdb.riders (final_time) VALUE " + rider.getTime());
+            System.out.println("final time setted");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static Rider getRider(String number) {
+
+        Rider findedRider = new Rider();
+        findedRider.setNumber(number);
+        String query="SELECT name,category FROM timingsystemdb.riders WHERE number= '" + number + "';";
+
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             Statement statement = connection.createStatement())
+        {
+            ResultSet set = statement.executeQuery(query);
+            while (set.next()) {
+                findedRider.setName(set.getString(1));
+                findedRider.setCategory(set.getString(2));
+
+            }
+            if (findedRider.getName()!=null){System.out.println("rider found");}
+            else System.out.println("rider not found");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return findedRider;
+    }
+
+
+    public static void deleteRider(Rider rider) {
+
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             Statement statement = connection.createStatement()) {
+            ResultSet set = statement.executeQuery("DELETE * FROM riders WHERE number=" + rider.getNumber());
+
+            System.out.println("rider deleted");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

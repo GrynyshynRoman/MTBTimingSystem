@@ -1,68 +1,78 @@
 package com.RomanGrynyshyn.engine;
 
+
+
 public class Rider implements Comparable<Rider> {
-    private String riderName;
-    private String riderCategory;
-    private String riderNumber;
-    private long riderTime;
-    private long riderStartTime;
+    private String name;
+    private String category;
+    private String number;
+    private long time;
+    private long startTime;
+    private long finishtime;
 
-
-    public void setRiderName(String riderName) {
-        this.riderName = riderName;
+    public void setFinishtime(long finishtime) {
+        this.finishtime = finishtime;
     }
+    public long getFinishtime() {
 
-    public void setRiderCategory(String category) {
-        this.riderCategory = category;
+        return finishtime;
     }
-
-    public void setRiderNumber(String riderNumber) {
-        this.riderNumber = riderNumber;
+    public void setName(String name) {
+        this.name = name;
     }
-
-    public void setRiderTime(long riderTime) {
-        this.riderTime = riderTime;
+    public void setCategory(String category) {
+        this.category = category;
     }
-
-    public void setRiderStartTime(long riderStartTime) {
-        this.riderStartTime = riderStartTime;
+    public void setNumber(String number) {
+        this.number = number;
     }
-
-    public String getRiderName() {
-        return riderName;
+    public void setTime(long time) {
+        this.time = time;
     }
-
-    public String getRiderCategory() {
-        return riderCategory;
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
     }
-
-    public String getRiderNumber() {
-        return riderNumber;
+    public String getName() {
+        return name;
     }
-
-    public long getRiderTime() {
-        return riderTime;
+    public String getCategory() {
+        return category;
     }
-
-    public long getRiderStartTime() {
-        return riderStartTime;
+    public String getNumber() {
+        return number;
     }
-
+    public long getTime() {
+        return time;
+    }
+    public long getStartTime() {
+        return startTime;
+    }
     public long calculateRiderTime() {
-        return riderTime = System.currentTimeMillis() - riderStartTime;
+        return time = finishtime - startTime;
     }
+    @Override
+    public String toString() {
+        return "Rider{" +
+                "category='" + category + '\'' +
+                ", name='" + name + '\'' +
+                ", number='" + number + '\'' +
+                ", time=" + time +
+                ", startTime=" + startTime +
+                '}';
+    }
+
     public String showRiderTimeAsString(){
         int min=0;
         int sec=0;
         int ms=0;
-        min=(int)riderTime/60000;
-        sec=(int)(riderTime-min*60000)/1000;
-        ms=(int)(riderTime-sec*1000-min*60000);
+        min=(int) time /60000;
+        sec=(int)(time -min*60000)/1000;
+        ms=(int)(time -sec*1000-min*60000);
         String timeOutput=(min+":"+sec+":"+ms);
         return timeOutput;
     }
 
     public int compareTo(Rider rider) {
-        return Double.compare(riderTime, rider.riderTime);
+        return Double.compare(time, rider.time);
     }
 }
